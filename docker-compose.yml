@@ -23,8 +23,6 @@ services:
         build:
             dockerfile: Dockerfile.dev
             context: ./server
-        
-        #command: ["./wait-for-postgres.sh", "postgres-service"]
 
         depends_on: 
             - postgres-service
@@ -32,13 +30,13 @@ services:
             - /app/node_modules
             - ./server:/app
         environment: 
-            - REDIS_HOST:redis
-            - REDIS_PORT:6379
-            - PGUSER:postgres
-            - PGHOST:postgres-service
-            - PGDATABASE:postgres
-            - PGPASSWORD:postgres_password
-            - PGPORT:5432
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+            - PGUSER=postgres
+            - PGHOST=postgres-service
+            - PGDATABASE=postgres
+            - PGPASSWORD=postgres_password
+            - PGPORT=5432
           
     
     client:
@@ -59,5 +57,5 @@ services:
             - /app/node_modules
             - ./worker:/app
         environment: 
-            - REDIS_HOST:redis
-            - REDIS_PORT:6379
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
