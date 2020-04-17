@@ -8,3 +8,17 @@ before_install:
 
 script:
     - docker run -e CI=true vishalbendre/react-test npm test -- --coverage
+
+after_success:
+    - docker build -t vishalbendre/multi-docker-client ./client
+    - docker build -t vishalbendre/multi-docker-nginx ./nginx
+    - docker build -t vishalbendre/multi-docker-server ./server
+    - docker build -t vishalbendre/multi-docker-worker ./worker
+
+#Docker login
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+# Push images to docker    
+    - docker push vishalbendre/multi-docker-client
+    - docker push vishalbendre/multi-docker-nginx
+    - docker push vishalbendre/multi-docker-server
+    - docker push vishalbendre/multi-docker-worker
