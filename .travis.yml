@@ -22,3 +22,18 @@ after_success:
     - docker push vishalbendre/multi-docker-nginx
     - docker push vishalbendre/multi-docker-server
     - docker push vishalbendre/multi-docker-worker
+
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: us-east-2
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-us-east-2-455444192241
+    bucket_path: docker-multi
+
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+

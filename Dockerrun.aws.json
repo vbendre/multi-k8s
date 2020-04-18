@@ -1,0 +1,32 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions":[
+        {
+            "name" : "client",
+            "image" : "vishalbendre/multi-docker-client",
+            "hostname" : "client",
+            "essential" : false
+        },{
+            "name" : "server",
+            "image" : "vishalbendre/multi-docker-server",
+            "hostname" : "api",
+            "essential" : false
+        },{
+            "name" : "worker",
+            "image" : "vishalbendre/multi-docker-worker",
+            "essential" : false
+        },{
+            "name" : "nginx",
+            "image" : "vishalbendre/multi-docker-nginx",
+            "hostname" : "nginx",
+            "essential" : true,
+            "portMappings" : [
+                {
+                    "hostPort" : 80,
+                    "containerPort" : 80
+                }
+            ],
+            "links": ["client","server"]
+        }
+    ]
+}
