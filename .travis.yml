@@ -1,6 +1,9 @@
 sudo: required
 services: 
   - docker
+env:
+  global:
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
   - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d
   - curl https://sdk.cloud.google.com | bash > /dev/null;
@@ -12,3 +15,7 @@ before_install:
   - gcloud container clusters get-credentials multi-cluster
   #Docker login
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t vishalbendre/docker-react-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true vishalbendre/docker-react-client-test npm test -- --coverage
